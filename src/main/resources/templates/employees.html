@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employees</title>
+</head>
+<body>
+Employees:
+<a href="?lang=hy">Armenian</a> | <a href="?lang=ru">Russian</a> | <a href="? lang=en">English</a>
+<br><br>
+<a href="/addEmployee"th:text="#{employees.add.employee}">Add Employee</a>
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>surname</th>
+        <th>email</th>
+        <th>phoneNumber</th>
+        <th>salary</th>
+        <th>position</th>
+        <th>companies</th>
+        <th>images</th>
+    </tr>
+    <tr th:each="e:${employees}">
+        <td th:text="${e.id}"></td>
+        <td th:text="${e.name}"></td>
+        <td th:text="${e.surname}"></td>
+        <td th:text="${e.email}"></td>
+        <td th:text="${e.phoneNumber}"></td>
+        <td th:text="${e.salary}"></td>
+        <td th:text="${e.position}"></td>
+        <td>
+            <span th:text="${e.company.id+' '+e.company.name}"></span>
+        </td>
+        <td>
+            <img th:if="${e.picUrl!=null}" th:src="@{/getImage/(pictureName=${e.picUrl})}" width="100px" height="100px">
+            <img th:if="${e.picUrl==null}" src="/img.png" width="100px" height="100px">
+        </td>
+
+    </tr>
+
+</table>
+
+
+</body>
+</html>
