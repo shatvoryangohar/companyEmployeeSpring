@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class EmployeesController {
 
 private final EmployeeService employeeService;
    private final CompanyService companyService;
-
+private final PasswordEncoder passwordEncoder;
     @Value("${myImages.upload.path}")
     private String imagePath;
 
@@ -41,7 +42,8 @@ private final EmployeeService employeeService;
 
     @PostMapping("/addEmployee")
     public String addEmployee(@ModelAttribute Employee employee, @RequestParam("picture") MultipartFile multipartFile) throws IOException {
-      employeeService.addEmployee(employee,multipartFile);
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+        employeeService.addEmployee(employee,multipartFile);
         return "redirect:/employee";
     }
 

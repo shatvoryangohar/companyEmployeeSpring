@@ -2,9 +2,13 @@ package com.example.companyemployeespring.service;
 
 import com.example.companyemployeespring.entity.Company;
 import com.example.companyemployeespring.entity.Employee;
+import com.example.companyemployeespring.entity.Role;
 import com.example.companyemployeespring.repository.EmployeeRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +24,7 @@ public class EmployeeService {
     private String imagePath;
 
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void deleteEmployeeByCompany(Company company) {
         employeeRepository.deleteEmployeeByCompany(company);
@@ -30,16 +35,21 @@ public class EmployeeService {
     }
 
     public Employee save(Employee employee) {
+
         return employeeRepository.save(employee);
     }
 
     public Employee addEmployee(Employee employee, MultipartFile multipartFile) throws IOException {
+
         if (!multipartFile.isEmpty()) {
             String fileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
             File file = new File(imagePath + fileName);
             multipartFile.transferTo(file);
             employee.setPicUrl(fileName);
+
+
         }
+
         employeeRepository.save(employee);
         return employee;
     }

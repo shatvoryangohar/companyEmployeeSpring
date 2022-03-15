@@ -21,10 +21,13 @@ public class Employee {
     private String name;
     private String surname;
     private String email;
+   private String password;
     private String phoneNumber;
     private double salary;
     private String position;
     private String picUrl;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @ManyToOne
     private Company company;
 }
