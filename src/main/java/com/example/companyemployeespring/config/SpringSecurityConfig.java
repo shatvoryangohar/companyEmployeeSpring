@@ -33,7 +33,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/employee").hasAnyAuthority(Role.ADMIN.name())
                 .antMatchers("/addEmployee").hasAnyAuthority(Role.ADMIN.name())
                 .antMatchers("/addCompany").hasAnyAuthority(Role.ADMIN.name())
-                .antMatchers("/deleteCompany/{id}").hasAnyAuthority(Role.ADMIN.name());
+                .antMatchers("/deleteCompany/{id}").hasAnyAuthority(Role.ADMIN.name())
+                .anyRequest().authenticated();
 
     }
 
